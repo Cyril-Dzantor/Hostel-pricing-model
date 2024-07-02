@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Pricer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #FF6F61;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        header img {
+            height: 50px;
+            vertical-align: middle;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        nav a {
+            padding: 15px 20px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        .hero {
+            background-image: url('background_image.jpg'); /* background image */
+            background-size: cover;
+            background-position: center;
+            height: 300px;
+            position: relative;
+        }
+        .hero-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+        }
+        .hero-text h1 {
+            margin: 0;
+            font-size: 48px;
+        }
+        .search-box {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: -100px auto 20px;
+            text-align: center;
+            position: relative;
+            z-index: 10; 
+        }
+        .search-box select,
+        .search-box input {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: calc(20% - 22px);
+            z-index: 10; 
+        }
+        .search-box button {
+            padding: 10px 20px;
+            background-color: #FF6F61;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .footer {
+            background-color: #FF6F61;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .footer button {
+            padding: 10px 20px;
+            background-color: #ffffff;
+            color: #FF6F61;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .multi-select-box {
+            text-align: left;
+            margin: 5px 0;
+        }
+        .multi-select-box p {
+            margin: 0 0 5px;
+            font-weight: bold;
+        }
+        .multi-select-box label {
+            display: block;
+            margin: 2px 0;
+            padding: 2px 0;
+        }
+        .price-box {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .price-box p {
+            font-size: 24px;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="logo.png" alt="Logo"> <!-- Log Url -->
+    <span>HOSTEL PRICER</span>
+</header>
+
+<nav>
+    <a href="#">HOME</a>
+    <a href="#">OTHER PAGES</a>
+    <a href="#">OTHER PAGES</a>
+    <a href="#">OTHER PAGES</a>
+</nav>
+
+<div class="hero">
+    <div class="hero-text">
+        <h1>Find Your Hostel</h1>
+    </div>
+</div>
+
+<div class="search-box">
+    <form action="{% url 'calculate_price' %}" method="get">
+        {%csrf_token%}
+        <select name="location">
+            <option value="">Location</option>
+            <option value="Campus">Campus</option>
+            <option value="Ayeduase">Ayeduase</option>
+            <option value="Kotei">Kotei</option>
+            <option value="Boadi">Boadi</option>
+            <option value="Atonsu">Atonsu</option>
+            <option value="Tech junction">Tech junction</option>
+            <option value="Newsite">Newsite</option>
+            <option value="Bomsu">Bomsu</option>
+        </select>
+
+        <select name="room_size">
+            <option value="">Room Size</option>
+            <option value="1 in 1">1 in 1</option>
+            <option value="2 in 1">2 in 1</option>
+            <option value="3 in 1">3 in 1</option>
+            <option value="4 in 1">4 in 1</option>
+        </select>
+
+        <select name="persons_per_room">
+            <option value="">Persons per Room</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+
+        <div class="multi-select-box">
+            <p>Infrastructure</p>
+            <label><input type="checkbox" name="infrastructure" value="Modern_Wardrobe"> Modern Wardrobe</label>
+            <label><input type="checkbox" name="infrastructure" value="Back_up_power_supply"> Back up power supply</label>
+            <label><input type="checkbox" name="infrastructure" value="Gym"> Gym</label>
+            <label><input type="checkbox" name="infrastructure" value="Elevator"> Elevator</label>
+            <label><input type="checkbox" name="infrastructure" value="Modernized_bathrooms"> Modernized bathrooms</label>
+        </div>
+
+        <div class="multi-select-box">
+            <p>Appliances</p>
+            <label><input type="checkbox" name="appliances" value="Tv"> Tv</label>
+            <label><input type="checkbox" name="appliances" value="Air_conditioner"> Air conditioner</label>
+            <label><input type="checkbox" name="appliances" value="Refrigerator"> Refrigerator</label>
+            <label><input type="checkbox" name="appliances" value="Water_heater"> Water heater</label>
+        </div>
+        
+        <button type="submit">CHECK PRICE</button>
+    </form>
+</div>
+
+<div class="price-box">
+    <p id="price-output">Price will be displayed here.</p>
+</div>
+
+<div class="footer">
+    <p>We are here to help you?</p>
+    <button>SUBSCRIBE NEWSLETTERS</button>
+</div>
+
+</body>
+</html>
