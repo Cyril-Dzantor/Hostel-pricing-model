@@ -1,24 +1,74 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from joblib import load
+from sklearn.preprocessing import StandardScaler
+import numpy as np 
 
 
 def home(request):
     return render(request,"index.html")
 
 def calculate_price(request):
-    model = load("final_model.sav")
-    lists = []
-    lists.append(request.GET['location'])
-    lists.append(request.GET['room_size'])
+    model = load("final_model")
+    scaler = load("scaler.joblib")
+    lists = {
+        'Tv': 'no', 'Air_conditioner': 'no', 'Refrigerator': 'no', 'Water_heater': 'no',
+        'Modern_Wardrobe': 'no', 'Back_up_power_supply': 'no', 'Gym': 'no', 'Elevator': 'no',
+        'Modernized_bathrooms': 'no', 'Room size': 0,
+        'Location_Ayeduase': 'no', 'Location_Boadi': 'no', 'Location_Bomsu': 'no',
+        'Location_Campus': 'no', 'Location_Kotei': 'no', 'Location_Newsite': 'no',
+        'Location_Tech junction': 'no', 'Historical pricing data': 0
+    }
+
+    location= request.GET['location']
+    lists['Room size']=float(request.GET['room_size'][0])
+    lists['Historical pricing data']=float(request.GET['current_price'])
+
+    #Removed number of people in a room from the training and test set
+    # lists['Number of people in a room'] = float(request.GET['persons_per_room'])
+    
     infrastructures = request.GET.getlist('infrastructure')
     appliances = request.GET.getlist('appliances')
+    combined = infrastructures + appliances
 
-    lists.extend(infrastructures)
-    lists.extend(appliances)
+    column_names = ['Tv', 'Air_conditioner', 'Refrigerator', 'Water_heater',
+                   'Modern_Wardrobe', 'Back_up_power_supply', 'Gym', 'Elevator',
+                   'Modernized_bathrooms']
+    
+    locations = ['Campus', 'Ayeduase', 'Kotei', 'Boadi', 'Tech junction', 'Newsite', 'Bomsu']
 
-    print(lists)
+    for area in locations:
+        if area == location:
+            lists[f"Location_{area}"] = True
+        else:
+            lists[f"Location_{area}"] = False
+    
+    for name in column_names:
+        if name in combined:
+            lists[name] = True
+        else:
+            lists[name] = False
+    
 
-    response_text = f"Received data: {lists}"
+    input_data = [
+        lists['Tv'], lists['Air_conditioner'], lists['Refrigerator'], lists['Water_heater'],
+        lists['Modern_Wardrobe'], lists['Back_up_power_supply'], lists['Gym'], lists['Elevator'],
+        lists['Modernized_bathrooms'], lists['Room size'],
+        lists['Location_Ayeduase'], lists['Location_Boadi'], lists['Location_Bomsu'],
+        lists['Location_Campus'], lists['Location_Kotei'], lists['Location_Newsite'],
+        lists['Location_Tech junction'], lists['Historical pricing data']
+    ]
 
-    return HttpResponse(response_text)
+    input_data = np.array(input_data).reshape(1, -1)
+
+    input_data_scaled = scaler.transform(input_data)
+
+    prediction = model.predict(input_data_scaled)
+
+    prediction = round(float(prediction),2)
+
+    print(input_data_scaled)
+
+    # response_text = f"Received data: {lists}"
+
+    return render(request,"index.html",{'prediction':prediction})
