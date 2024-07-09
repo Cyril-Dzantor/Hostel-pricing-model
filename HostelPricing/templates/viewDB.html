@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Hostel Database</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Hostel Database</h2>
+
+<table>
+    <tr>
+        <th>Location</th>
+        <th>Room Size</th>
+        <th>Infrastructure</th>
+        <th>Appliances</th>
+        <th>Historical Price</th>
+        <th>Current Price</th>
+    </tr>
+    {% for hostel in hostels %}
+    <tr>
+        <td>{{ hostel.location }}</td>
+        <td>{{ hostel.RoomSize }}</td>
+        <td>{{ hostel.infrastructure }}</td>
+        <td>{{ hostel.appliances }}</td>
+        <td>{{ hostel.Historical_Price }}</td>
+        <td>{{ hostel.Current_Price }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

@@ -129,8 +129,8 @@
 </header>
 
 <nav>
-    <a href="#">HOME</a>
-    <a href="#">OTHER PAGES</a>
+    <a href="/">HOME</a>
+    <a href="/viewDatabase/">VIEW DATABASE</a>
     <a href="#">OTHER PAGES</a>
     <a href="#">OTHER PAGES</a>
 </nav>
@@ -142,69 +142,94 @@
 </div>
 
 <div class="search-box">
+    {% if prediction %}
+    <form action="{% url 'updateDatabase' %}" method="post">
+        <input type="hidden" name="prediction" value="{{ prediction }}">
+    {% else %}
     <form action="{% url 'calculate_price' %}" method="get">
-        {%csrf_token%}
+    {% endif %}
+        {% csrf_token %}
         <select name="location" required>
             <option value="">Location</option>
-            <option value="Campus">Campus</option>
-            <option value="Ayeduase">Ayeduase</option>
-            <option value="Kotei">Kotei</option>
-            <option value="Boadi">Boadi</option>
-            <option value="Atonsu">Atonsu</option>
-            <option value="Tech junction">Tech junction</option>
-            <option value="Newsite">Newsite</option>
-            <option value="Bomsu">Bomsu</option>
+            <option value="Campus" {% if form_data.location == "Campus" %}selected{% endif %}>Campus</option>
+            <option value="Ayeduase" {% if form_data.location == "Ayeduase" %}selected{% endif %}>Ayeduase</option>
+            <option value="Kotei" {% if form_data.location == "Kotei" %}selected{% endif %}>Kotei</option>
+            <option value="Boadi" {% if form_data.location == "Boadi" %}selected{% endif %}>Boadi</option>
+            <option value="Atonsu" {% if form_data.location == "Atonsu" %}selected{% endif %}>Atonsu</option>
+            <option value="Tech junction" {% if form_data.location == "Tech Junction" %}selected{% endif %}>Tech junction</option>
+            <option value="Newsite" {% if form_data.location == "Newsite" %}selected{% endif %}>Newsite</option>
+            <option value="Bomsu" {% if form_data.location == "Bomsu" %}selected{% endif %}>Bomsu</option>
         </select>
 
-        <select name="room_size">
-            <option value="">Room Size</option required>
-            <option value="1 in 1">1 in 1</option>
-            <option value="2 in 1">2 in 1</option>
-            <option value="3 in 1">3 in 1</option>
-            <option value="4 in 1">4 in 1</option>
+        <select name="room_size" required>
+            <option value="">Room Size</option>
+            <option value="1 in 1" {% if form_data.room_size == "1 in 1" %}selected{% endif %}>1 in 1</option>
+            <option value="2 in 1" {% if form_data.room_size == "2 in 1" %}selected{% endif %}>2 in 1</option>
+            <option value="3 in 1" {% if form_data.room_size == "3 in 1" %}selected{% endif %}>3 in 1</option>
+            <option value="4 in 1" {% if form_data.room_size == "4 in 1" %}selected{% endif %}>4 in 1</option>
         </select>
 
         <select name="persons_per_room" required>
             <option value="">Persons per Room</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
+            <option value="1" {% if form_data.persons_per_room == "1" %}selected{% endif %}>1</option>
+            <option value="2" {% if form_data.persons_per_room == "2" %}selected{% endif %}>2</option>
+            <option value="3" {% if form_data.persons_per_room == "3" %}selected{% endif %}>3</option>
+            <option value="4" {% if form_data.persons_per_room == "4" %}selected{% endif %}>4</option>
         </select>
 
-        <input type="text" name="current_price" placeholder="Current Price" id="current_price" required>
-
+        <input type="text" name="current_price" placeholder="Current Price" id="current_price" value="{{ form_data.current_price }}" required>
         <div class="multi-select-box">
             <p>Infrastructure</p>
-            <label><input type="checkbox" name="infrastructure" value="Modern_Wardrobe"> Modern Wardrobe</label>
-            <label><input type="checkbox" name="infrastructure" value="Back_up_power_supply"> Back up power supply</label>
-            <label><input type="checkbox" name="infrastructure" value="Gym"> Gym</label>
-            <label><input type="checkbox" name="infrastructure" value="Elevator"> Elevator</label>
-            <label><input type="checkbox" name="infrastructure" value="Modernized_bathrooms"> Modernized bathrooms</label>
+            <label>
+                <input type="checkbox" name="infrastructure[]" value="Modern_Wardrobe" 
+                       {% if "Modern_Wardrobe" in form_data.infrastructure %}checked{% endif %}> Modern Wardrobe
+            </label>
+            <label>
+                <input type="checkbox" name="infrastructure[]" value="Back_up_power_supply" 
+                       {% if "Back_up_power_supply" in form_data.infrastructure %}checked{% endif %}> Back up power supply
+            </label>
+            <label>
+                <input type="checkbox" name="infrastructure[]" value="Gym" 
+                       {% if "Gym" in form_data.infrastructure %}checked{% endif %}> Gym
+            </label>
+            <label>
+                <input type="checkbox" name="infrastructure[]" value="Elevator" 
+                       {% if "Elevator" in form_data.infrastructure %}checked{% endif %}> Elevator
+            </label>
+            <label>
+                <input type="checkbox" name="infrastructure[]" value="Modernized_bathrooms" 
+                       {% if "Modernized_bathrooms" in form_data.infrastructure %}checked{% endif %}> Modernized bathrooms
+            </label>
         </div>
 
         <div class="multi-select-box">
             <p>Appliances</p>
-            <label><input type="checkbox" name="appliances" value="Tv"> Tv</label>
-            <label><input type="checkbox" name="appliances" value="Air_conditioner"> Air conditioner</label>
-            <label><input type="checkbox" name="appliances" value="Refrigerator"> Refrigerator</label>
-            <label><input type="checkbox" name="appliances" value="Water_heater"> Water heater</label>
+            <label><input type="checkbox" name="appliances[]" value="Tv" {% if "Tv" in form_data.appliances %}checked{% endif %}> Tv</label>
+            <label><input type="checkbox" name="appliances[]" value="Air_conditioner" {% if "Air_conditioner" in form_data.appliances %}checked{% endif %}> Air conditioner</label>
+            <label><input type="checkbox" name="appliances[]" value="Refrigerator" {% if "Refrigerator" in form_data.appliances %}checked{% endif %}> Refrigerator</label>
+            <label><input type="checkbox" name="appliances[]" value="Water_heater" {% if "Water_heater" in form_data.appliances %}checked{% endif %}> Water heater</label>
         </div>
-        
+
+        {% if prediction %}
+        <h3>Do you want to store response in the database?</h3>
+        <button type="submit">SAVE</button>
+        {% else %}
         <button type="submit">CHECK PRICE</button>
+        {% endif %}
+        
     </form>
 </div>
 
+{% if prediction %}
 <div class="price-box">
-    <p id="price-output">GHS {{prediction}}</p>
+    <p id="price-output">GHS {{ prediction }}</p>
 </div>
+{% endif %}
 
 <div class="footer">
-    <p>We are here to help you?</p>
-    <button>SUBSCRIBE NEWSLETTERS</button>
+    <p>&copy; 2024 Hostel Pricer. All rights reserved.</p>
+    <button>Contact Us</button>
 </div>
 
 </body>
 </html>
-
-

@@ -4,6 +4,12 @@ from joblib import load
 from sklearn.preprocessing import StandardScaler
 import numpy as np 
 
+#database import
+from pymongo import MongoClient
+
+client = MongoClient('localhost',27017)
+db = client.hostelPricingDB
+collectionD = db.HostelsTable
 
 def home(request):
     return render(request,"index.html")
@@ -21,13 +27,13 @@ def calculate_price(request):
     }
 
     location= request.GET['location']
-    lists['Room size']=float(request.GET['room_size'][0])
+    lists['Room size']=int(request.GET['room_size'][0])
     lists['Historical pricing data']=float(request.GET['current_price'])
 
     #Removed number of people in a room from the training and test set
     # lists['Number of people in a room'] = float(request.GET['persons_per_room'])
     
-    infrastructures = request.GET.getlist('infrastructure')
+    infrastructures = request.GET.getlist('infrastructure[]')
     appliances = request.GET.getlist('appliances')
     combined = infrastructures + appliances
 
@@ -71,4 +77,28 @@ def calculate_price(request):
 
     # response_text = f"Received data: {lists}"
 
-    return render(request,"index.html",{'prediction':prediction})
+    context = {'lists':lists,'prediction':prediction, 'form_data':request.GET}
+
+    return render(request,"index.html",context)
+
+
+def viewDatabase(request):
+    hostels = list(collectionD.find({}))  
+    context = {'hostels': hostels}  
+    return render(request, "viewDB.html", context)
+
+
+def updateDatabase(request):
+    table= {}
+    table['location']= request.POST.get('location')  
+    table['RoomSize'] = request.POST.get('room_size') 
+    table['infrastructure'] = request.POST.getlist('infrastructure[]')
+    table['appliances'] = request.POST.getlist('appliances')
+    table['Historical_Price'] = float(request.POST.get('current_price'))
+    table['Current_Price'] = float(request.POST.get('prediction'))
+
+    collectionD.insert_one(table)
+
+    hostels = list(collectionD.find({}))  
+    context = {'hostels': hostels}  
+    return render(request, "viewDB.html", context)
