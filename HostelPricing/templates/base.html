@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Hostel Pricer{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #FF6F61;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        header img {
+            height: 50px;
+            vertical-align: middle;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        nav a {
+            padding: 15px 20px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        .hero {
+            background-image: url('{% block hero_image %}background_image.jpg{% endblock %}'); /* background image */
+            background-size: cover;
+            background-position: center;
+            height: 250px;
+            position: relative;
+        }
+        .hero-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+        }
+        .hero-text h1 {
+            margin: 0;
+            font-size: 48px;
+        }
+        .footer {
+            background-color: #FF6F61;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .footer button {
+            padding: 10px 20px;
+            background-color: #ffffff;
+            color: #FF6F61;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+    {% block extra_styles %}{% endblock %}
+</head>
+<body>
+
+<header>
+    <img src="logo.png" alt="Logo"> <!-- Log Url -->
+    <span>HOSTEL PRICER</span>
+</header>
+
+<nav>
+    <a href="/">HOME</a>
+    <a href="/viewDatabase/">VIEW DATABASE</a>
+    <a href="#">OTHER PAGES</a>
+    <a href="#">OTHER PAGES</a>
+</nav>
+
+<div class="hero">
+    <div class="hero-text">
+        <h1>{% block hero_text %}Find Your Hostel{% endblock %}</h1>
+    </div>
+</div>
+
+{% block content %}{% endblock %}
+
+<div class="footer">
+    <p>&copy; 2024 Hostel Pricer. All rights reserved.</p>
+    <button>Contact Us</button>
+</div>
+
+</body>
+</html>
