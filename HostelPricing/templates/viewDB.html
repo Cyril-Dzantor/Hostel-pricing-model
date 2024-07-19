@@ -2,6 +2,14 @@
 
 {% block title %}View Hostel Database{% endblock %}
 
+{% block hero_image %}background_image.jpg{% endblock %}
+
+{% block hero_text %}
+<div class="hero-text">
+    <h1>Saved Predictions</h1>
+</div>
+{% endblock %}
+
 {% block content %}
 <div class="table-container">
     <h2>Hostel Database</h2>
@@ -39,6 +47,9 @@
         margin: 10px auto;
         padding: 10px;
         width: 80%;
+        background-color: rgba(255, 255, 255, 0.8); 
+        border-radius: 8px; 
+        backdrop-filter: blur(10px); 
     }
     h2 {
         margin-bottom: 10px;

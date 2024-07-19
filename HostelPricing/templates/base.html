@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +10,10 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-image: url("{% static 'background.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
         header {
             background-color: #FF6F61;
@@ -33,7 +38,7 @@
             font-weight: bold;
         }
         .hero {
-            background-image: url('{% block hero_image %}background_image.jpg{% endblock %}'); /* background image */
+            background-image: url('{% block hero_image %}background_image.jpg{% endblock %}');
             background-size: cover;
             background-position: center;
             height: 250px;
@@ -71,7 +76,7 @@
 <body>
 
 <header>
-    <img src="logo.png" alt="Logo"> <!-- Log Url -->
+    <img src="{% static 'logo.png' %}" alt="Logo">
     <span>HOSTEL PRICER</span>
 </header>
 
@@ -83,16 +88,18 @@
 </nav>
 
 <div class="hero">
+    {% block hero_text %}
     <div class="hero-text">
-        <h1>{% block hero_text %}Find Your Hostel{% endblock %}</h1>
+        <h1>Find Your Hostel</h1>
     </div>
+    {% endblock %}
 </div>
 
 {% block content %}{% endblock %}
 
 <div class="footer">
     <p>&copy; 2024 Hostel Pricer. All rights reserved.</p>
-    <button>Contact Us</button>
+    <button onclick="window.location.href='/contact/'">Contact Us</button>
 </div>
 
 </body>

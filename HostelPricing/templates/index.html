@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +10,10 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-image: url("{% static 'back.jpg' %}"); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; 
         }
         header {
             background-color: #FF6F61;
@@ -33,9 +38,6 @@
             font-weight: bold;
         }
         .hero {
-            background-image: url('background_image.jpg'); /* background image */
-            background-size: cover;
-            background-position: center;
             height: 300px;
             position: relative;
         }
@@ -122,7 +124,7 @@
     </style>
 </head>
 <body>
-
+    {%load static%}
 <header>
     <img src="logo.png" alt="Logo"> <!-- Log Url -->
     <span>HOSTEL PRICER</span>
@@ -181,34 +183,39 @@
         <div class="multi-select-box">
             <p>Infrastructure</p>
             <label>
-                <input type="checkbox" name="infrastructure[]" value="Modern_Wardrobe" 
-                       {% if "Modern_Wardrobe" in form_data.infrastructure %}checked{% endif %}> Modern Wardrobe
+                <input type="checkbox" name="infrastructure[]" value="Modern_Wardrobe"
+                       {% if lists.Modern_Wardrobe  %}checked{% endif %}> Modern Wardrobe
             </label>
             <label>
-                <input type="checkbox" name="infrastructure[]" value="Back_up_power_supply" 
-                       {% if "Back_up_power_supply" in form_data.infrastructure %}checked{% endif %}> Back up power supply
+                <input type="checkbox" name="infrastructure[]" value="Back_up_power_supply"
+                       {% if lists.Back_up_power_supply  %}checked{% endif %}> Back up power supply
             </label>
             <label>
-                <input type="checkbox" name="infrastructure[]" value="Gym" 
-                       {% if "Gym" in form_data.infrastructure %}checked{% endif %}> Gym
+                <input type="checkbox" name="infrastructure[]" value="Gym"
+                       {% if lists.Gym %}checked{% endif %}> Gym
             </label>
             <label>
-                <input type="checkbox" name="infrastructure[]" value="Elevator" 
-                       {% if "Elevator" in form_data.infrastructure %}checked{% endif %}> Elevator
+                <input type="checkbox" name="infrastructure[]" value="Elevator"
+                       {% if lists.Elevator  %}checked{% endif %}> Elevator
             </label>
             <label>
-                <input type="checkbox" name="infrastructure[]" value="Modernized_bathrooms" 
-                       {% if "Modernized_bathrooms" in form_data.infrastructure %}checked{% endif %}> Modernized bathrooms
+                <input type="checkbox" name="infrastructure[]" value="Modernized_bathrooms"
+                       {% if lists.Modernized_bathrooms  %}checked{% endif %}> Modernized bathrooms
             </label>
         </div>
-
+        
         <div class="multi-select-box">
             <p>Appliances</p>
-            <label><input type="checkbox" name="appliances[]" value="Tv" {% if "Tv" in form_data.appliances %}checked{% endif %}> Tv</label>
-            <label><input type="checkbox" name="appliances[]" value="Air_conditioner" {% if "Air_conditioner" in form_data.appliances %}checked{% endif %}> Air conditioner</label>
-            <label><input type="checkbox" name="appliances[]" value="Refrigerator" {% if "Refrigerator" in form_data.appliances %}checked{% endif %}> Refrigerator</label>
-            <label><input type="checkbox" name="appliances[]" value="Water_heater" {% if "Water_heater" in form_data.appliances %}checked{% endif %}> Water heater</label>
+            <label><input type="checkbox" name="appliances[]" value="Tv"
+                          {% if lists.Tv %}checked{% endif %}> Tv</label>
+            <label><input type="checkbox" name="appliances[]" value="Air_conditioner"
+                          {% if lists.Air_conditioner %}checked{% endif %}> Air conditioner</label>
+            <label><input type="checkbox" name="appliances[]" value="Refrigerator"
+                          {% if lists.Refrigerator %}checked{% endif %}> Refrigerator</label>
+            <label><input type="checkbox" name="appliances[]" value="Water_heater"
+                          {% if lists.Water_heater %}checked{% endif %}> Water heater</label>
         </div>
+        
 
         {% if prediction %}
         <h3>Do you want to store response in the database?</h3>

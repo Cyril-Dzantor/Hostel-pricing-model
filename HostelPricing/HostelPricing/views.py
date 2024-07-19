@@ -25,7 +25,7 @@ def calculate_price(request):
         'Location_Campus': 'no', 'Location_Kotei': 'no', 'Location_Newsite': 'no',
         'Location_Tech junction': 'no', 'Historical pricing data': 0
     }
-
+    
     location= request.GET['location']
     lists['Room size']=int(request.GET['room_size'][0])
     lists['Historical pricing data']=float(request.GET['current_price'])
@@ -34,7 +34,7 @@ def calculate_price(request):
     # lists['Number of people in a room'] = float(request.GET['persons_per_room'])
     
     infrastructures = request.GET.getlist('infrastructure[]')
-    appliances = request.GET.getlist('appliances')
+    appliances = request.GET.getlist('appliances[]')
     combined = infrastructures + appliances
 
     column_names = ['Tv', 'Air_conditioner', 'Refrigerator', 'Water_heater',
@@ -73,11 +73,14 @@ def calculate_price(request):
 
     prediction = round(float(prediction),2)
 
-    print(input_data_scaled)
+    # print(input_data_scaled)
+
 
     # response_text = f"Received data: {lists}"
 
     context = {'lists':lists,'prediction':prediction, 'form_data':request.GET}
+
+    # print(lists)
 
     return render(request,"index.html",context)
 
@@ -93,7 +96,7 @@ def updateDatabase(request):
     table['location']= request.POST.get('location')  
     table['RoomSize'] = request.POST.get('room_size') 
     table['infrastructure'] = request.POST.getlist('infrastructure[]')
-    table['appliances'] = request.POST.getlist('appliances')
+    table['appliances'] = request.POST.getlist('appliances[]')
     table['Historical_Price'] = float(request.POST.get('current_price'))
     table['Current_Price'] = float(request.POST.get('prediction'))
 
