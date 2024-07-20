@@ -95,8 +95,12 @@ def updateDatabase(request):
     table= {}
     table['location']= request.POST.get('location')  
     table['RoomSize'] = request.POST.get('room_size') 
-    table['infrastructure'] = request.POST.getlist('infrastructure[]')
-    table['appliances'] = request.POST.getlist('appliances[]')
+    infrastructure_list = request.POST.getlist('infrastructure[]')
+    infrastructure_list = [item.replace('_',' ') for item in infrastructure_list]
+    table['infrastructure'] = ', '.join(infrastructure_list)
+    appliances_list = request.POST.getlist('appliances[]')
+    appliances_list = [item.replace('_', ' ') for item in appliances_list]
+    table['appliances']= ', '.join(appliances_list)
     table['Historical_Price'] = float(request.POST.get('current_price'))
     table['Current_Price'] = float(request.POST.get('prediction'))
 
