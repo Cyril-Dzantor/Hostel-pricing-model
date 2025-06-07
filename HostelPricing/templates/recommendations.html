@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Recommendations{% endblock %}
+
+{% block content %}
+<div class="content" style="max-width: 1200px; margin: 30px auto; padding: 0 15px;">
+    <h1 style="text-align: center; margin-bottom: 30px;">Recommended Hostels</h1>
+
+    {% if recommended_hostels %}
+    <div style="
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 20px;
+        justify-items: center;
+    ">
+        {% for hostel in recommended_hostels %}
+        <div style="
+            width: 100%;
+            max-width: 320px;
+            cursor: pointer;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgb(0 0 0 / 0.2);
+            background-color: #fff;
+            transition: box-shadow 0.3s ease;
+        " 
+        onmouseover="this.style.boxShadow='0 6px 20px rgb(0 0 0 / 0.3)'" 
+        onmouseout="this.style.boxShadow='0 2px 8px rgb(0 0 0 / 0.2)'"
+        >
+            {% if hostel.image %}
+            <div style="position: relative; width: 100%; padding-top: 56.25%; /* 16:9 Aspect Ratio */ overflow: hidden;">
+                <img src="{{ hostel.image.url }}" alt="Hostel Image" 
+                    style="
+                        position: absolute;
+                        top: 0; left: 0;
+                        width: 100%; height: 100%;
+                        object-fit: cover;
+                        display: block;
+                    ">
+            </div>
+            {% else %}
+            <div style="
+                width: 100%; 
+                padding-top: 56.25%; 
+                background-color: #ddd; 
+                display: flex; 
+                align-items: center; 
+                justify-content: center; 
+                color: #666;
+                font-weight: 600;
+                font-size: 14px;
+            ">
+                No Image
+            </div>
+            {% endif %}
+
+            <div style="padding: 15px;">
+                <h3 style="margin: 0 0 8px 0; font-size: 1.2rem; color: #222;">{{ hostel.name }}</h3>
+                <p style="margin: 0; font-size: 0.9rem; color: #555;">
+                    <strong>Location:</strong> {{ hostel.location }}
+                </p>
+                <p style="margin: 4px 0; font-size: 0.9rem; color: #555;">
+                    <strong>Price:</strong> GHS {{ hostel.price }}
+                </p>
+                <p style="margin: 4px 0; font-size: 0.9rem; color: #555;">
+                    <strong>Room Size:</strong> {{ hostel.room_size }} in a room 
+                </p>
+                <p style="margin: 4px 0; font-size: 0.9rem; color: #555;">
+                    <strong>Infrastructure:</strong> {{ hostel.infrastructure|join:", " }}
+                </p>
+                <p style="margin: 4px 0 0 0; font-size: 0.9rem; color: #555;">
+                    <strong>Appliances:</strong> {{ hostel.appliances|join:", " }}
+                </p>
+                <p style="margin: 4px 0 0 0; font-size: 0.9rem; color: #555;">
+                    <strong>Contact </strong> {{ hostel.contact}}
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p style="text-align: center; font-size: 1.2rem; color: #666;">No recommendations found based on the selected criteria.</p>
+    {% endif %}
+</div>
+{% endblock %}

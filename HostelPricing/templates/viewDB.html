@@ -2,17 +2,44 @@
 
 {% block title %}View Hostel Database{% endblock %}
 
-{% block hero_image %}background_image.jpg{% endblock %}
-
-{% block hero_text %}
-<div class="hero-text">
-    <h1>Saved Predictions</h1>
-</div>
+{% block extra_styles %}
+<style>
+    .table-container {
+        max-width: 90%;
+        margin: 100px auto;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        padding: 20px;
+        color: white;
+    }
+    .table-container h2 {
+        text-align: center;
+        color: rgb(255, 255, 255);
+        margin-bottom: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 10px;
+        text-align: center;
+    }
+    th {
+        background-color: rgba(133, 0, 0, 0.8);
+        color: white;
+    }
+    tr:nth-child(even) {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+</style>
 {% endblock %}
 
 {% block content %}
 <div class="table-container">
-    <h2>Hostel Database</h2>
+    <h2>Saved Predictions</h2>
 
     <table>
         <tr>
@@ -26,45 +53,13 @@
         {% for hostel in hostels %}
         <tr>
             <td>{{ hostel.location }}</td>
-            <td>{{ hostel.RoomSize }}</td>
+            <td>{{ hostel.room_size }}</td>
             <td>{{ hostel.infrastructure }}</td>
             <td>{{ hostel.appliances }}</td>
-            <td>{{ hostel.Historical_Price }}</td>
-            <td>{{ hostel.Current_Price }}</td>
+            <td>{{ hostel.historical_price }}</td>
+            <td>{{ hostel.current_price }}</td>
         </tr>
         {% endfor %}
     </table>
 </div>
-{% endblock %}
-
-{% block extra_styles %}
-<style>
-    .table-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        margin: 10px auto;
-        padding: 10px;
-        width: 80%;
-        background-color: rgba(255, 255, 255, 0.8); 
-        border-radius: 8px; 
-        backdrop-filter: blur(10px); 
-    }
-    h2 {
-        margin-bottom: 10px;
-    }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    th, td {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: left;
-    }
-    th {
-        background-color: #f2f2f2;
-    }
-</style>
 {% endblock %}

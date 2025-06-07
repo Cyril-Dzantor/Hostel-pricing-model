@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %} {% endblock %} - Hostel Pricer</title>
+    <title>About Us - Hostel Pricer</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -80,7 +80,6 @@
             font-weight: bold;
         }
     </style>
-    {% block extra_styles %}{% endblock %}
 </head>
 <body>
     <header>
@@ -96,7 +95,13 @@
         </nav>
     </header>
 
-    {% block content %}{% endblock %}
+    <div class="content">
+        <h1>Help</h1>
+        <p>This page is currently under construction.</p>
+        <img src="{% static 'construction.jpeg' %}" alt="Under Construction">
+        <p>We're working hard to bring you more information. Stay tuned!</p>
+    </div>
+
     <div class="footer">
         <p>&copy; 2024 Hostel Pricer. All rights reserved.</p>
         <button onclick="window.location.href='mailto:contact@hostelpricer.com'">Contact Us</button>
